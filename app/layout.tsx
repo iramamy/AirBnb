@@ -4,6 +4,8 @@ import "./globals.css";
 
 // Custom components
 import Navbar from "./components/navbar/Navbar";
+import LoginModal from "./components/modal/LoginModal";
+import SignUpModal from "./components/modal/SignUpModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +19,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const content = <p>This is a contnent</p>;
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <Navbar />
         <div className="pt-32">{children}</div>
+        <LoginModal />
+        <SignUpModal />
       </body>
     </html>
   );

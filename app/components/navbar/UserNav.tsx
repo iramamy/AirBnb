@@ -4,15 +4,18 @@ import { useState } from "react";
 
 // Custom component
 import MenuLink from "./MenuLink";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import useSignUpModal from "@/app/hooks/useSignUpModal";
 
 const UserNav = () => {
-  const [isOpen, SetIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const loginModal = useLoginModal();
+  const signUpModal = useSignUpModal();
 
   return (
     <div className="p-2 relative inline-block border rounded-full">
-      <button className="flex items-center" onClick={() => SetIsOpen(!isOpen)}>
+      <button className="flex items-center" onClick={() => setIsOpen(!isOpen)}>
         <svg
-          xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
@@ -27,7 +30,6 @@ const UserNav = () => {
         </svg>
 
         <svg
-          xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
@@ -47,14 +49,21 @@ const UserNav = () => {
           <MenuLink
             label="Log In"
             isFirst={true}
-            onClick={() => console.log("Log In")}
+            onClick={() => {
+              loginModal.open();
+              setIsOpen(false);
+            }}
           />
           <MenuLink label="Profile" onClick={() => console.log("Profile")} />
 
           <MenuLink
-            label="Sign Out"
+            label="Sign Up"
             isLast={true}
-            onClick={() => console.log("Sign Out")}
+            onClick={() => {
+              signUpModal.open();
+              setIsOpen(false);
+              console.log("Sign Up");
+            }}
           />
         </div>
       )}
