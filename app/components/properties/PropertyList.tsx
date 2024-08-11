@@ -1,29 +1,42 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
+// Custom components
 import PropertyListItem from "./PropertyListItem";
+import apiService from "@/app/services/apiService";
+
+export type PropertyType = {
+  id: string;
+  image_url: string;
+  title: string;
+  price_per_night: string;
+};
 
 const PropertyList = () => {
+  const [properties, setProperties] = useState<PropertyType[]>([]);
+
+  const getProperties = async () => {
+    const url = "/api/properties/";
+    const tmpProperties = await apiService.get(url);
+    setProperties(tmpProperties.data);
+  };
+  useEffect(() => {
+    getProperties();
+  }, []);
+
   return (
     <div className="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <PropertyListItem
-        image_path="/properties/beach_1.jpg"
-        name="Beach house"
-      />
-      <PropertyListItem
-        image_path="/properties/image2.jpeg"
-        name="Barbie house"
-      />
-      <PropertyListItem image_path="/properties/image3.jpeg" name="Ted house" />
-      <PropertyListItem
-        image_path="/properties/image4.jpeg"
-        name="Mansion house"
-      />
-      <PropertyListItem
-        image_path="/properties/image5.png"
-        name="Ferrari house"
-      />
-      <PropertyListItem
-        image_path="/properties/image6.jpeg"
-        name="Olympic house"
-      />
+      {properties.map((property) => {
+        return (
+          <PropertyListItem
+            key={property.id}
+            image_path={property.image_url}
+            name={property.title}
+            price={property.price_per_night}
+          />
+        );
+      })}
     </div>
   );
 };

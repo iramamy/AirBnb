@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 // Custom components
 import Modal from "./Modal";
 import useSignUpModal from "@/app/hooks/useSignUpModal";

@@ -12,7 +12,13 @@ const Navbar = () => {
       <div className="max-w-[1500px] mx-auto px-6">
         <div className="flex justify-between items-center">
           <Link href="/">
-            <Image src="/logo.png" alt="Logo" width={180} height={38} />
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              width={180}
+              height={38}
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
           </Link>
           <div className="flex space-x-6">
             <SearchFilter />

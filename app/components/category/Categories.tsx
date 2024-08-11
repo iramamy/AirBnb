@@ -5,7 +5,7 @@ import SingleCategory from "./SingleCategory";
 
 const Categories = () => {
   return (
-    <div className="cursor-pointer pt-3 pb-6 flex items-center space-x-12">
+    <div className="pt-3 pb-6 flex items-center space-x-12">
       <SingleCategory image_path="/icons/icon1.png" title="Beach" />
       <SingleCategory image_path="/icons/icon2.png" title="Off-grid" />
       <SingleCategory image_path="/icons/icon3.png" title="House" />

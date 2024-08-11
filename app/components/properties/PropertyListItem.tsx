@@ -1,14 +1,15 @@
-import React from "react";
 import Image from "next/image";
 
 interface PropertyListItemProps {
   image_path: string;
   name: string;
+  price: string;
 }
 
 const PropertyListItem: React.FC<PropertyListItemProps> = ({
   image_path,
   name,
+  price,
 }) => {
   return (
     <div className="cursor-pointer">
@@ -24,7 +25,7 @@ const PropertyListItem: React.FC<PropertyListItemProps> = ({
       <div className="mt-2 flex flex-col">
         <span className="text-sm font-bold">{name}</span>
         <span className="text-xs text-gray-500">
-          <strong>$200</strong> per night
+          <strong>${price}</strong> per night
         </span>
       </div>
     </div>
