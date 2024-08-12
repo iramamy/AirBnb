@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 // Custom components
 import signUpSchema from "./SignUpValidation";
 import apiService from "@/app/services/apiService";
+import useLoginModal from "@/app/hooks/useLoginModal";
 import { handleLogin } from "@/app/lib/actions";
 
 type SignUpFormValues = {
@@ -21,6 +22,8 @@ type SignUpFormProps = {
 const SignUpFrom = ({ close }: SignUpFormProps) => {
   const router = useRouter();
   const [emailList, setEmailList] = useState<string[]>([]);
+
+  const loginModal = useLoginModal();
 
   // Fetch email list from db
   useEffect(() => {
@@ -172,16 +175,19 @@ const SignUpFrom = ({ close }: SignUpFormProps) => {
               type="submit"
               className="w-full text-white bg-airbnb font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-airbnb-dark "
             >
-              Create an account
+              Create
             </button>
             <p className="text-sm font-light text-gray-500 dark:text-gray-450">
               Already have an account?{" "}
-              <a
-                href="#"
-                className="font-medium text-airbnb hover:underline hover:text-airbnb-dark  dark:text-primary-500"
+              <span
+                onClick={() => {
+                  loginModal.open();
+                  close();
+                }}
+                className="font-medium text-airbnb hover:underline hover:text-airbnb-dark   dark:text-primary-500 cursor-pointer"
               >
                 Login here
-              </a>
+              </span>
             </p>
           </Form>
         )}

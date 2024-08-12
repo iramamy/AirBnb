@@ -1,25 +1,51 @@
-import React from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field } from "formik";
 
 // Custom components
 import LoginSchema from "./LoginValidation";
+import apiService from "@/app/services/apiService";
+import useSignUpModal from "@/app/hooks/useSignUpModal";
+import { handleLogin } from "@/app/lib/actions";
 
 type LoginFormValues = {
   email: string;
   password: string;
 };
-const LoginForm = () => {
+
+type LoginFormProps = {
+  close: () => void;
+};
+
+const LoginForm = ({ close }: LoginFormProps) => {
   const router = useRouter();
+  const [apiError, setApiError] = useState("");
+
+  const signUpModal = useSignUpModal();
 
   const initial_values = {
     email: "",
     password: "",
   };
 
-  const submitForm = (values: LoginFormValues) => {
-    console.log("values", values);
+  const submitForm = async (values: LoginFormValues) => {
+    // console.log("values", values);
+    const formData = {
+      email: values.email,
+      password: values.password,
+    };
+    const login_url = "/api/auth/login/";
+
+    const response = await apiService.post(login_url, JSON.stringify(formData));
+
+    if (response.access) {
+      handleLogin(response.user.id, response.access, response.refresh);
+      router.push("/");
+      close(); // Close the modal
+    } else if (response.non_field_errors) {
+      setApiError(response.non_field_errors);
+    }
   };
 
   const errorClass = "border-red-500";
@@ -27,6 +53,11 @@ const LoginForm = () => {
 
   return (
     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+      {apiError && (
+        <div className="text-red-500 text-center mt-0">
+          Please enter valid credentials
+        </div>
+      )}
       <Formik
         initialValues={initial_values}
         validationSchema={LoginSchema}
@@ -46,7 +77,7 @@ const LoginForm = () => {
                 name="email"
                 id="email"
                 className={`bg-gray-50 border ${
-                  errors.email ? errorClass : noErrorClass
+                  errors.email || apiError ? errorClass : noErrorClass
                 } text-gray-900 rounded-lg block w-full p-2.5 focus:border-gray-900 focus:outline-none`}
                 placeholder="name@company.com"
               ></Field>
@@ -67,7 +98,7 @@ const LoginForm = () => {
                 id="password"
                 placeholder="••••••••"
                 className={`bg-gray-50 border ${
-                  errors.password ? errorClass : noErrorClass
+                  errors.password || apiError ? errorClass : noErrorClass
                 } text-gray-900 rounded-lg block w-full p-2.5 focus:border-gray-900 focus:outline-none`}
               ></Field>
               {errors.password && (
@@ -108,12 +139,15 @@ const LoginForm = () => {
             </button>
             <p className="text-sm font-light text-gray-700 dark:text-gray-450">
               Don’t have an account yet?{" "}
-              <Link
-                href="/"
-                className="font-medium text-airbnb hover:underline"
+              <span
+                onClick={() => {
+                  signUpModal.open();
+                  close();
+                }}
+                className="font-medium text-airbnb hover:underline cursor-pointer"
               >
                 Sign up
-              </Link>
+              </span>
             </p>
           </Form>
         )}
