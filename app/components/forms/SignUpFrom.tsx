@@ -1,5 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 // Custom components
 import signUpSchema from "./SignUpValidation";
@@ -19,6 +20,20 @@ type SignUpFormProps = {
 
 const SignUpFrom = ({ close }: SignUpFormProps) => {
   const router = useRouter();
+  const [emailList, setEmailList] = useState<string[]>([]);
+
+  // Fetch email list from db
+  useEffect(() => {
+    const fetchEmails = async () => {
+      const url = "/api/auth/useremail";
+      const response = await apiService.get(url);
+      setEmailList(
+        response.data.map((email: { email: string }) => email.email)
+      );
+    };
+
+    fetchEmails();
+  }, []);
 
   const initial_values = {
     email: "",
@@ -27,6 +42,7 @@ const SignUpFrom = ({ close }: SignUpFormProps) => {
     terms_n_condition: false,
   };
 
+  // sign up form submission
   const submitForm = async (values: SignUpFormValues) => {
     const formData = {
       email: values.email,
@@ -55,7 +71,7 @@ const SignUpFrom = ({ close }: SignUpFormProps) => {
     <div className="p-2 space-y-4 md:space-y-6 sm:p-8">
       <Formik
         initialValues={initial_values}
-        validationSchema={signUpSchema}
+        validationSchema={signUpSchema(emailList)}
         onSubmit={submitForm}
       >
         {({ errors }) => (
