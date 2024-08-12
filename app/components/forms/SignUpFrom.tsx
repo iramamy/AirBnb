@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 // Custom components
 import signUpSchema from "./SignUpValidation";
 import apiService from "@/app/services/apiService";
+import { handleLogin } from "@/app/lib/actions";
 
 type SignUpFormValues = {
   email: string;
@@ -12,7 +13,11 @@ type SignUpFormValues = {
   terms_n_condition: boolean;
 };
 
-const SignUpFrom = () => {
+type SignUpFormProps = {
+  close: () => void;
+};
+
+const SignUpFrom = ({ close }: SignUpFormProps) => {
   const router = useRouter();
 
   const initial_values = {
@@ -25,13 +30,22 @@ const SignUpFrom = () => {
   const submitForm = async (values: SignUpFormValues) => {
     const formData = {
       email: values.email,
-      password: values.password,
-      confirm_password: values.confirm_password,
+      password1: values.password,
+      password2: values.confirm_password,
     };
 
     const registration_url = "/api/auth/register/";
 
-    const response = await apiService.post(registration_url, formData);
+    const response = await apiService.post(
+      registration_url,
+      JSON.stringify(formData)
+    );
+
+    if (response.access) {
+      handleLogin(response.user.id, response.access, response.refresh);
+      router.push("/");
+      close(); // Close the modal
+    }
   };
 
   const errorClass = "border-red-500";
