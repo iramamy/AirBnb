@@ -2,8 +2,12 @@
 
 import { cookies } from "next/headers";
 
-export async function handleLogin(userId: string, accessToken: string, refreshToken: string) {
-  cookies().set('session_user_id', userId, {
+export async function handleLogin(
+  userId: string,
+  accessToken: string,
+  refreshToken: string) 
+  {
+  cookies().set('session_userid', userId, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     maxAge: 60 * 60 * 24 * 7, // one week
@@ -24,5 +28,24 @@ export async function handleLogin(userId: string, accessToken: string, refreshTo
     path: '/',
     sameSite: 'lax'
   });
-  console.log("Great");
+  // Log the cookies being set in handleLogin
+  console.log('Setting session_userid:', userId);
+  console.log('Setting session_access_token:', accessToken);
+  console.log('Setting session_refresh_token:', refreshToken);
+
 };
+
+export async function resetAuthCookes() {
+
+  cookies().set("session_userid", '');
+  cookies().set("session_access_token", '');
+  cookies().set("session_refresh_token", '');
+  
+};
+
+
+export async function getUserId() {
+  const userId = cookies().get("session_userid")?.value
+  console.log('Retrieved session_userid:', userId);
+  return userId ? userId : null
+}

@@ -61,7 +61,7 @@ const SignUpFrom = ({ close }: SignUpFormProps) => {
     );
 
     if (response.access) {
-      handleLogin(response.user.id, response.access, response.refresh);
+      handleLogin(response.user.pk, response.access, response.refresh);
       router.push("/");
       close(); // Close the modal
     }

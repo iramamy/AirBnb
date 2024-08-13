@@ -6,11 +6,18 @@ import { useState } from "react";
 import MenuLink from "./MenuLink";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useSignUpModal from "@/app/hooks/useSignUpModal";
+import LogOutButton from "../LogOutButton";
 
-const UserNav = () => {
+interface userNavProps {
+  userId?: string | null;
+}
+
+const UserNav: React.FC<userNavProps> = ({ userId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const loginModal = useLoginModal();
   const signUpModal = useSignUpModal();
+
+  console.log("UserId", userId);
 
   return (
     <div className="p-2 relative inline-block border rounded-full">
@@ -46,25 +53,35 @@ const UserNav = () => {
 
       {isOpen && (
         <div className="absolute w-[220px] top-[50px] right-0 bg-white shadow-md border border-gray-100 rounded-xl cursor-pointer flex flex-col">
-          <MenuLink
-            label="Log In"
-            isFirst={true}
-            onClick={() => {
-              loginModal.open();
-              setIsOpen(false);
-            }}
-          />
-          <MenuLink label="Profile" onClick={() => console.log("Profile")} />
+          {userId ? (
+            <>
+              {" "}
+              <MenuLink
+                label="Profile"
+                onClick={() => console.log("Profile")}
+              />{" "}
+              <LogOutButton />
+            </>
+          ) : (
+            <>
+              <MenuLink
+                label="Log In"
+                isFirst={true}
+                onClick={() => {
+                  loginModal.open();
+                  setIsOpen(false);
+                }}
+              />
 
-          <MenuLink
-            label="Sign Up"
-            isLast={true}
-            onClick={() => {
-              signUpModal.open();
-              setIsOpen(false);
-              console.log("Sign Up");
-            }}
-          />
+              <MenuLink
+                label="Sign Up"
+                onClick={() => {
+                  signUpModal.open();
+                  setIsOpen(false);
+                }}
+              />
+            </>
+          )}
         </div>
       )}
     </div>

@@ -40,7 +40,7 @@ const LoginForm = ({ close }: LoginFormProps) => {
     const response = await apiService.post(login_url, JSON.stringify(formData));
 
     if (response.access) {
-      handleLogin(response.user.id, response.access, response.refresh);
+      handleLogin(response.user.pk, response.access, response.refresh);
       router.push("/");
       close(); // Close the modal
     } else if (response.non_field_errors) {
