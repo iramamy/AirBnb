@@ -55,7 +55,7 @@ const SignUpFrom = ({ close }: SignUpFormProps) => {
 
     const registration_url = "/api/auth/register/";
 
-    const response = await apiService.post(
+    const response = await apiService.postWithoutToken(
       registration_url,
       JSON.stringify(formData)
     );

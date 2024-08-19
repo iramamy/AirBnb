@@ -64,7 +64,11 @@ const ConversationDetail = () => {
           placeholder="Type your message ..."
           required
         />
-        <CustomButton label="Send" onClick={() => console.log("Clicked")} />
+        <CustomButton
+          label="Send"
+          onClick={() => console.log("Clicked")}
+          isAbsolute={true}
+        />
       </div>
     </div>
   );

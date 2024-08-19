@@ -35,6 +35,7 @@ export async function handleLogin(
 
 };
 
+// Clear session for log out
 export async function resetAuthCookes() {
 
   cookies().set("session_userid", '');
@@ -48,4 +49,10 @@ export async function getUserId() {
   const userId = cookies().get("session_userid")?.value
   console.log('Retrieved session_userid:', userId);
   return userId ? userId : null
+}
+
+export async function getAccessToken() {
+  const accessToken= cookies().get("session_access_token")?.value;
+
+  return accessToken
 }
