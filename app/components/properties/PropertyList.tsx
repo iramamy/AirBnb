@@ -31,6 +31,7 @@ const PropertyList = () => {
         return (
           <PropertyListItem
             key={property.id}
+            id={property.id}
             image_path={property.image_url}
             name={property.title}
             price={property.price_per_night}
