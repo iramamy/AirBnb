@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 // Custom component
 import MenuLink from "./MenuLink";
@@ -17,7 +18,7 @@ const UserNav: React.FC<userNavProps> = ({ userId }) => {
   const loginModal = useLoginModal();
   const signUpModal = useSignUpModal();
 
-  console.log("UserId", userId);
+  const router = useRouter();
 
   return (
     <div className="p-2 relative inline-block border rounded-full">
@@ -55,11 +56,24 @@ const UserNav: React.FC<userNavProps> = ({ userId }) => {
         <div className="absolute w-[220px] top-[50px] right-0 bg-white shadow-md border border-gray-100 rounded-xl cursor-pointer flex flex-col">
           {userId ? (
             <>
-              {" "}
               <MenuLink
                 label="Profile"
                 onClick={() => console.log("Profile")}
-              />{" "}
+              />
+              <MenuLink
+                label="My properties"
+                onClick={() => {
+                  setIsOpen(false);
+                  router.push(`/myproperty/`);
+                }}
+              />
+              <MenuLink
+                label="My reservations"
+                onClick={() => {
+                  setIsOpen(false);
+                  router.push(`/myreservations/`);
+                }}
+              />
               <LogOutButton />
             </>
           ) : (

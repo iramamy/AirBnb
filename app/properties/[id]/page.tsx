@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 // Custom component
 import ReservationSideBar from "@/app/components/properties/ReservationSideBar";
@@ -29,28 +30,25 @@ const PropertyDetailPage = async ({ params }: { params: { id: string } }) => {
 
           <hr />
 
-          <div className="py-6 flex items-center space-x-4">
-            {property.landlord.avatar_url ? (
-              <Image
-                src={property.landlord.avatar_url}
-                alt="Profile"
-                width={50}
-                height={50}
-                className="rounded-full cursor-pointer"
-              />
-            ) : (
-              <Image
-                src="/profiles/profile1.png"
-                alt="Profile"
-                width={50}
-                height={50}
-                className="rounded-full cursor-pointer"
-              />
-            )}
+          <Link
+            href={`/landlord/${property.landlord.id}`}
+            className="py-6 flex items-center space-x-4"
+          >
+            <Image
+              src={
+                property.landlord.avatar_url
+                  ? property.landlord.avatar_url
+                  : "/profiles/profile1.png"
+              }
+              alt="Profile"
+              width={50}
+              height={50}
+              className="rounded-full cursor-pointer"
+            />
             <p>
               <strong>{property.landlord.name}</strong> is your host
             </p>
-          </div>
+          </Link>
 
           <hr />
           <p className="text-lg mt-6"> {property.description} </p>
