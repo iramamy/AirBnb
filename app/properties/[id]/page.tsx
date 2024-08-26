@@ -3,9 +3,11 @@ import Image from "next/image";
 // Custom component
 import ReservationSideBar from "@/app/components/properties/ReservationSideBar";
 import apiService from "@/app/services/apiService";
+import { getUserId } from "@/app/lib/actions";
 
 const PropertyDetailPage = async ({ params }: { params: { id: string } }) => {
   const property = await apiService.get(`/api/properties/${params.id}`);
+  const userId = await getUserId();
   return (
     <main className="max-w-[1500px] mx-auto px-6 pb-6">
       <div className=" w-full h-[64vh] overflow-hidden rounded-xl relative">
@@ -22,7 +24,7 @@ const PropertyDetailPage = async ({ params }: { params: { id: string } }) => {
         <div className="py-6 pr-6 col-span-3">
           <h1 className="text-4xl mb-4">{property.title}</h1>
           <span className="mb-6 block text-lg text-gray-600">
-            Guests: {property.guests} - bedrooms {property.bedrooms}
+            {property.guests}: Guests: - {property.bedrooms}: bedrooms
           </span>
 
           <hr />
@@ -53,10 +55,12 @@ const PropertyDetailPage = async ({ params }: { params: { id: string } }) => {
           <hr />
           <p className="text-lg mt-6"> {property.description} </p>
         </div>
-        <ReservationSideBar property={property} />
+        <ReservationSideBar property={property} userId={userId} />
       </div>
     </main>
   );
 };
 
 export default PropertyDetailPage;
+
+// Next 32: 11 part 6
