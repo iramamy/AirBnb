@@ -21,8 +21,8 @@ const UserNav: React.FC<userNavProps> = ({ userId }) => {
   const router = useRouter();
 
   return (
-    <div className="p-2 relative inline-block border rounded-full">
-      <button className="flex items-center" onClick={() => setIsOpen(!isOpen)}>
+    <div className="p-2 relative inline-block border rounded-full cursor-pointer">
+      <div className="flex items-center" onClick={() => setIsOpen(!isOpen)}>
         <svg
           fill="none"
           viewBox="0 0 24 24"
@@ -50,7 +50,7 @@ const UserNav: React.FC<userNavProps> = ({ userId }) => {
             d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
           />
         </svg>
-      </button>
+      </div>
 
       {isOpen && (
         <div className="absolute w-[220px] top-[50px] right-0 bg-white shadow-md border border-gray-100 rounded-xl cursor-pointer flex flex-col">
@@ -58,6 +58,7 @@ const UserNav: React.FC<userNavProps> = ({ userId }) => {
             <>
               <MenuLink
                 label="Profile"
+                isFirst={true}
                 onClick={() => console.log("Profile")}
               />
               <MenuLink

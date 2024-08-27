@@ -3,8 +3,6 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-// custom components
-
 const Reservations = ({ reservations }: { reservations: any[] }) => {
   const router = useRouter();
 

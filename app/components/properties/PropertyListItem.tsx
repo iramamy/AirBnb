@@ -1,11 +1,16 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+// Custom components
+import FavoriteButton from "../FavoriteButton";
+
 interface PropertyListItemProps {
   id: string;
   image_path: string;
   name: string;
   price: string;
+  markFavorite?: (is_favorite: boolean) => void;
+  is_favorite: boolean;
 }
 
 const PropertyListItem: React.FC<PropertyListItemProps> = ({
@@ -13,6 +18,8 @@ const PropertyListItem: React.FC<PropertyListItemProps> = ({
   image_path,
   name,
   price,
+  markFavorite,
+  is_favorite,
 }) => {
   const router = useRouter();
   const property_detail_url = `/properties/${id}`;
@@ -30,6 +37,14 @@ const PropertyListItem: React.FC<PropertyListItemProps> = ({
           className="hover:scale-110 object-cover transition h-full w-full"
           alt="Properties"
         />
+
+        {markFavorite && (
+          <FavoriteButton
+            id={id}
+            is_favorite={is_favorite}
+            markFavorite={(is_favorite) => markFavorite(is_favorite)}
+          />
+        )}
       </div>
       <div className="mt-2 flex flex-col">
         <span className="text-sm font-bold">{name}</span>

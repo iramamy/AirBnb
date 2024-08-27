@@ -12,7 +12,7 @@ const LogOutButton: React.FC = () => {
     resetAuthCookes();
     router.push("/");
   };
-  return <MenuLink label="Log Out" onClick={submitLogout} />;
+  return <MenuLink label="Log Out" onClick={submitLogout} isLast={true} />;
 };
 
 export default LogOutButton;
