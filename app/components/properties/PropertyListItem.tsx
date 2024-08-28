@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 
 // Custom components
 import FavoriteButton from "../FavoriteButton";
+import { getUserId } from "@/app/lib/actions";
 
 interface PropertyListItemProps {
   id: string;

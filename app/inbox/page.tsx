@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-
 // Custom components
 import Conversation from "../components/inbox/Conversation";
 import { getUserId } from "../lib/actions";

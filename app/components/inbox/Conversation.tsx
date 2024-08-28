@@ -14,7 +14,7 @@ const Conversation: React.FC<ConversationProps> = ({
   userId,
 }) => {
   const router = useRouter();
-  const otherUser = conversation.users.find((user) => user.id != userId);
+  const otherUser = conversation.users.find((user) => user.id !== userId);
 
   return (
     <div className="px-6 py-4 border border-gray-300 rounded-xl cursor-pointer">

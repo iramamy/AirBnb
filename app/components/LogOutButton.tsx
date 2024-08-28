@@ -6,9 +6,14 @@ import { resetAuthCookes } from "../lib/actions";
 // Custom components
 import MenuLink from "./navbar/MenuLink";
 
-const LogOutButton: React.FC = () => {
+interface LogOutButtonProps {
+  onClick: () => void;
+}
+
+const LogOutButton: React.FC<LogOutButtonProps> = ({ onClick }) => {
   const router = useRouter();
   const submitLogout = async () => {
+    onClick();
     resetAuthCookes();
     router.push("/");
   };

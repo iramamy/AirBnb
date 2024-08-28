@@ -85,7 +85,11 @@ const UserNav: React.FC<userNavProps> = ({ userId }) => {
                   router.push(`/myfavorites/`);
                 }}
               />
-              <LogOutButton />
+              <LogOutButton
+                onClick={() => {
+                  setIsOpen(false);
+                }}
+              />
             </>
           ) : (
             <>

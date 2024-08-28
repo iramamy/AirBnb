@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 // Custom components
 import apiService from "../services/apiService";
+import { getUserId } from "../lib/actions";
+import useLoginModal from "../hooks/useLoginModal";
 
 interface FavoriteButtonProps {
   id: string;
@@ -16,20 +18,41 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   markFavorite,
 }) => {
   const [isClicked, setIsClicked] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const loginModal = useLoginModal();
 
-  const toggleFavorite = async (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
+  // Get user id from server
 
-    setIsClicked(true);
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const id = await getUserId();
+      setUserId(id);
+    };
 
-    setTimeout(() => setIsClicked(false), 300);
-    const response = await apiService.post(
-      `/api/properties/${id}/toggle_favorite/`,
-      {}
-    );
+    fetchUserId();
+  }, []);
 
-    markFavorite(response.is_favorite);
-  };
+  const toggleFavorite = useCallback(
+    async (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+
+      setIsClicked(true);
+
+      setTimeout(() => setIsClicked(false), 300);
+
+      if (!userId) {
+        loginModal.open();
+      }
+
+      const response = await apiService.post(
+        `/api/properties/${id}/toggle_favorite/`,
+        {}
+      );
+
+      markFavorite(response.is_favorite);
+    },
+    [userId, id, markFavorite]
+  );
   return (
     <div
       onClick={toggleFavorite}
