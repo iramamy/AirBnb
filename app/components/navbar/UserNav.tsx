@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 // Custom component
@@ -19,10 +19,37 @@ const UserNav: React.FC<userNavProps> = ({ userId }) => {
   const signUpModal = useSignUpModal();
 
   const router = useRouter();
+  const dropDownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropDownRef.current &&
+        !dropDownRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    // Attach the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="p-2 relative inline-block border rounded-full cursor-pointer">
-      <div className="flex items-center" onClick={() => setIsOpen(!isOpen)}>
+      <div
+        className="flex items-center"
+        onClick={() => setIsOpen(!isOpen)}
+        ref={buttonRef}
+      >
         <svg
           fill="none"
           viewBox="0 0 24 24"
@@ -53,7 +80,10 @@ const UserNav: React.FC<userNavProps> = ({ userId }) => {
       </div>
 
       {isOpen && (
-        <div className="absolute w-[220px] top-[50px] right-0 bg-white shadow-md border border-gray-100 rounded-xl cursor-pointer flex flex-col">
+        <div
+          ref={dropDownRef}
+          className="absolute w-[220px] top-[50px] right-0 bg-white shadow-md border border-gray-100 rounded-xl cursor-pointer flex flex-col"
+        >
           {userId ? (
             <>
               <MenuLink
