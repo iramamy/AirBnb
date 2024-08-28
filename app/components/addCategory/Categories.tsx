@@ -1,8 +1,9 @@
+"use client";
 import SingleCategory from "../category/SingleCategory";
 
 interface CategoriesProps {
-  dataCategory: string;
-  setCategory: (category: string) => void;
+  dataCategory?: string;
+  setCategory?: (category: string) => void;
 }
 
 const PropertyCategories: React.FC<CategoriesProps> = ({
@@ -14,37 +15,37 @@ const PropertyCategories: React.FC<CategoriesProps> = ({
       <SingleCategory
         image_path="/icons/icon1.png"
         title="Beach"
-        onClick={() => setCategory("Beach")}
+        onClick={() => setCategory?.("Beach")}
         dataCategory={dataCategory}
       />
       <SingleCategory
         image_path="/icons/icon2.png"
         title="Off-grid"
-        onClick={() => setCategory("Off-grid")}
+        onClick={() => setCategory?.("Off-grid")}
         dataCategory={dataCategory}
       />
       <SingleCategory
         image_path="/icons/icon3.png"
         title="House"
-        onClick={() => setCategory("House")}
+        onClick={() => setCategory?.("House")}
         dataCategory={dataCategory}
       />
       <SingleCategory
         image_path="/icons/icon4.png"
         title="Wow"
-        onClick={() => setCategory("Wow")}
+        onClick={() => setCategory?.("Wow")}
         dataCategory={dataCategory}
       />
       <SingleCategory
         image_path="/icons/icon5.png"
         title="Tropical"
-        onClick={() => setCategory("Tropical")}
+        onClick={() => setCategory?.("Tropical")}
         dataCategory={dataCategory}
       />
       <SingleCategory
         image_path="/icons/icon6.png"
         title="Tiny house"
-        onClick={() => setCategory("Tiny house")}
+        onClick={() => setCategory?.("Tiny house")}
         dataCategory={dataCategory}
       />
     </div>

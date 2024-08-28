@@ -84,6 +84,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
             markFavorite={(is_favorite: any) =>
               markFavorite(property.id, is_favorite)
             }
+            landloardId={landlord_id}
           />
         );
       })}

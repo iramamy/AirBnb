@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 
 // Custom components
 import FavoriteButton from "../FavoriteButton";
-import { getUserId } from "@/app/lib/actions";
+import CustomButton from "../forms/CustomButton";
 
 interface PropertyListItemProps {
   id: string;
@@ -12,6 +12,7 @@ interface PropertyListItemProps {
   price: string;
   markFavorite?: (is_favorite: boolean) => void;
   is_favorite: boolean;
+  landloardId?: string | null;
 }
 
 const PropertyListItem: React.FC<PropertyListItemProps> = ({
@@ -21,16 +22,18 @@ const PropertyListItem: React.FC<PropertyListItemProps> = ({
   price,
   markFavorite,
   is_favorite,
+  landloardId,
 }) => {
   const router = useRouter();
   const property_detail_url = `/properties/${id}`;
+  const edit_property_url = `/myproperty/${id}`;
 
   return (
     <div
       className="cursor-pointer"
       onClick={() => router.push(property_detail_url)}
     >
-      <div className="relative overflow-hidden aspect-square rounded-xl">
+      <div className="relative overflow-hidden aspect-square rounded-xl mb-2">
         <Image
           fill
           src={image_path}
@@ -47,12 +50,23 @@ const PropertyListItem: React.FC<PropertyListItemProps> = ({
           />
         )}
       </div>
-      <div className="mt-2 flex flex-col">
-        <span className="text-sm font-bold">{name}</span>
-        <span className="text-xs text-gray-500">
-          <strong>${price}</strong> per night
-        </span>
-      </div>
+
+      {landloardId ? (
+        <CustomButton
+          label="Edit property"
+          onClick={(event: any) => {
+            event.stopPropagation();
+            router.push(edit_property_url);
+          }}
+        />
+      ) : (
+        <div className="mt-2 flex flex-col">
+          <span className="text-sm font-bold">{name}</span>
+          <span className="text-xs text-gray-500">
+            <strong>${price}</strong> per night
+          </span>
+        </div>
+      )}
     </div>
   );
 };

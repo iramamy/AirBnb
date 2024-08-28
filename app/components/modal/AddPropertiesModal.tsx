@@ -157,7 +157,7 @@ const AddPropertiesModal = () => {
               />
             </div>
             <div className="flex flex-col space-y-2">
-              <label> Maximum numbe of guests</label>
+              <label> Maximum number of guests</label>
               <input
                 type="text"
                 className="focus:outline-none block w-full py-3 ps-4 text-md text-gray-900 border border-gray-100 rounded-lg bg-gray-100 dark:border-gray-300 dark:placeholder-gray-400"

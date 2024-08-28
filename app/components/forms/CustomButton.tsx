@@ -1,8 +1,9 @@
 interface CustomButtonProps {
   label: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   isAbsolute?: boolean;
   isPrev?: boolean;
+  isEdit?: boolean;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -10,6 +11,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   onClick,
   isAbsolute,
   isPrev,
+  isEdit,
 }) => {
   return (
     <button
@@ -17,7 +19,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       onClick={onClick}
       className={`text-white ${isAbsolute && "absolute"} end-2.5 bottom-2.5 ${
         isPrev ? "bg-black hover:bg-gray-800" : "bg-airbnb hover:bg-airbnb-dark"
-      } font-medium rounded-lg text-sm px-4 py-2 `}
+      } font-medium rounded-lg text-sm px-4 py-2 ${isEdit ? "w-[100%]" : ""}`}
     >
       {label}
     </button>

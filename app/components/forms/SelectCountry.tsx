@@ -12,7 +12,7 @@ export type SelectCountryValue = {
 
 interface SelectCountryProps {
   value?: SelectCountryValue;
-  onChange: (value: SelectCountryValue) => void;
+  onChange?: (value: SelectCountryValue) => void;
 }
 
 const SelectCountry: React.FC<SelectCountryProps> = ({ value, onChange }) => {
@@ -24,7 +24,7 @@ const SelectCountry: React.FC<SelectCountryProps> = ({ value, onChange }) => {
         placeholder="Anywhere..."
         options={getAll()}
         value={value}
-        onChange={(value) => onChange(value as SelectCountryValue)}
+        onChange={(value) => onChange?.(value as SelectCountryValue)}
       />
     </>
   );
