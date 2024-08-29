@@ -28,7 +28,7 @@ const SignUpFrom = ({ close }: SignUpFormProps) => {
   // Fetch email list from db
   useEffect(() => {
     const fetchEmails = async () => {
-      const url = "/api/auth/useremail";
+      const url = "/api/auth/user";
       const response = await apiService.get(url);
       setEmailList(
         response.data.map((email: { email: string }) => email.email)

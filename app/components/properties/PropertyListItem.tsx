@@ -1,32 +1,27 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 // Custom components
 import FavoriteButton from "../FavoriteButton";
 import CustomButton from "../forms/CustomButton";
 
 interface PropertyListItemProps {
-  id: string;
-  image_path: string;
-  name: string;
-  price: string;
+  property: any;
   markFavorite?: (is_favorite: boolean) => void;
   is_favorite: boolean;
-  landloardId?: string | null;
+  is_details?: boolean;
 }
 
 const PropertyListItem: React.FC<PropertyListItemProps> = ({
-  id,
-  image_path,
-  name,
-  price,
+  property,
   markFavorite,
   is_favorite,
-  landloardId,
+  is_details,
 }) => {
   const router = useRouter();
-  const property_detail_url = `/properties/${id}`;
-  const edit_property_url = `/myproperty/${id}`;
+  const property_detail_url = `/properties/${property.id}`;
+  const edit_property_url = `/myproperty/${property.id}`;
 
   return (
     <div
@@ -36,7 +31,7 @@ const PropertyListItem: React.FC<PropertyListItemProps> = ({
       <div className="relative overflow-hidden aspect-square rounded-xl mb-2">
         <Image
           fill
-          src={image_path}
+          src={property.image_url}
           sizes="(max-width: 768px) 768px (max-width: 1200px): 768px, 768px "
           className="hover:scale-110 object-cover transition h-full w-full"
           alt="Properties"
@@ -44,14 +39,14 @@ const PropertyListItem: React.FC<PropertyListItemProps> = ({
 
         {markFavorite && (
           <FavoriteButton
-            id={id}
+            id={property.id}
             is_favorite={is_favorite}
             markFavorite={(is_favorite) => markFavorite(is_favorite)}
           />
         )}
       </div>
 
-      {landloardId ? (
+      {is_details ? (
         <CustomButton
           label="Edit property"
           onClick={(event: any) => {
@@ -61,9 +56,9 @@ const PropertyListItem: React.FC<PropertyListItemProps> = ({
         />
       ) : (
         <div className="mt-2 flex flex-col">
-          <span className="text-sm font-bold">{name}</span>
+          <span className="text-sm font-bold">{property.title}</span>
           <span className="text-xs text-gray-500">
-            <strong>${price}</strong> per night
+            <strong>${property.price_per_night}</strong> per night
           </span>
         </div>
       )}

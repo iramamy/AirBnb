@@ -5,12 +5,14 @@ interface MenuLinkProps {
   onClick: () => void;
   isFirst?: boolean;
   isLast?: boolean;
+  extra_args?: any;
 }
 const MenuLink: React.FC<MenuLinkProps> = ({
   label,
   isFirst,
   isLast,
   onClick,
+  extra_args,
 }) => {
   return (
     <div

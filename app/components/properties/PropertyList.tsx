@@ -7,16 +7,15 @@ import PropertyListItem from "./PropertyListItem";
 import apiService from "@/app/services/apiService";
 
 export type PropertyType = {
+  property: any;
   id: string;
-  image_url: string;
-  title: string;
-  price_per_night: string;
   is_favorite: boolean;
 };
 
 interface PropertyListProps {
   landlord_id?: string | null;
   is_favorite?: boolean;
+  is_details?: boolean;
   favorites?: boolean | null;
 }
 
@@ -24,6 +23,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
   landlord_id,
   is_favorite,
   favorites,
+  is_details,
 }) => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
 
@@ -76,15 +76,12 @@ const PropertyList: React.FC<PropertyListProps> = ({
         return (
           <PropertyListItem
             key={property.id}
-            id={property.id}
-            image_path={property.image_url}
-            name={property.title}
-            price={property.price_per_night}
+            property={property}
             is_favorite={property.is_favorite}
             markFavorite={(is_favorite: any) =>
               markFavorite(property.id, is_favorite)
             }
-            landloardId={landlord_id}
+            is_details={is_details}
           />
         );
       })}

@@ -30,7 +30,6 @@ const LoginForm = ({ close }: LoginFormProps) => {
   };
 
   const submitForm = async (values: LoginFormValues) => {
-    // console.log("values", values);
     const formData = {
       email: values.email,
       password: values.password,

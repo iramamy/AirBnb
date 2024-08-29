@@ -1,9 +1,7 @@
 // Custom components
-
 import PropertyList from "../components/properties/PropertyList";
 import { getUserId } from "../lib/actions";
-
-import React from "react";
+import BackArrow from "../components/BackArrow";
 
 const MyFavoritePage = async () => {
   const userId = await getUserId();
@@ -17,7 +15,10 @@ const MyFavoritePage = async () => {
   }
   return (
     <main className="max-w-[1500px] max-auto px-6 pb-12">
-      <h1 className="my-6 text-2xl">My favorites</h1>
+      <div className="flex items-center gap-14">
+        <BackArrow />
+        <h1 className="my-6 text-2xl">My Favorites</h1>
+      </div>
       <PropertyList favorites={true} />
     </main>
   );

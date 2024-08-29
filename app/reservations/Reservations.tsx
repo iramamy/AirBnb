@@ -3,12 +3,25 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+// Custom components
+import BackArrow from "../components/BackArrow";
+import useLoginModal from "../hooks/useLoginModal";
+
 const Reservations = ({ reservations }: { reservations: any[] }) => {
   const router = useRouter();
+  const loginModal = useLoginModal();
+  // console.log("reservations", typeof reservations);
+
+  if (typeof reservations != "object") {
+    loginModal.open();
+  }
 
   return (
     <main className="max-w-[1500px] mx-auto px-6 pb-6">
-      <h1 className="my-6 text-2xl">My reservations</h1>
+      <div className="flex items-center gap-14">
+        <BackArrow />
+        <h1 className="my-6 text-2xl">My reservations</h1>
+      </div>
 
       <div className="space-y-4">
         {reservations.map((reservation: any) => {

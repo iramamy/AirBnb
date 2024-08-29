@@ -5,6 +5,7 @@ import Link from "next/link";
 import ReservationSideBar from "@/app/components/properties/ReservationSideBar";
 import apiService from "@/app/services/apiService";
 import { getUserId } from "@/app/lib/actions";
+import BackArrow from "@/app/components/BackArrow";
 
 const PropertyDetailPage = async ({ params }: { params: { id: string } }) => {
   const property = await apiService.get(`/api/properties/${params.id}`);
@@ -19,6 +20,9 @@ const PropertyDetailPage = async ({ params }: { params: { id: string } }) => {
           className="object-cover h-full w-full"
           alt="Property detail"
         />
+        <div className="absolute top-50 left-15 z-8">
+          <BackArrow />
+        </div>
       </div>
 
       <div className="mt-4 grid grid-cols-1 md:grid-cols-5 gap-4">
