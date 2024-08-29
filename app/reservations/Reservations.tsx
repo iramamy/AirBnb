@@ -10,11 +10,6 @@ import useLoginModal from "../hooks/useLoginModal";
 const Reservations = ({ reservations }: { reservations: any[] }) => {
   const router = useRouter();
   const loginModal = useLoginModal();
-  // console.log("reservations", typeof reservations);
-
-  if (typeof reservations != "object") {
-    loginModal.open();
-  }
 
   return (
     <main className="max-w-[1500px] mx-auto px-6 pb-6">
