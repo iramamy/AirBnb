@@ -64,5 +64,3 @@ const PropertyDetailPage = async ({ params }: { params: { id: string } }) => {
 };
 
 export default PropertyDetailPage;
-
-// Next 32: 11 part 6

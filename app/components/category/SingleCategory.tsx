@@ -6,6 +6,7 @@ interface SingleCategoryProps {
   title: string;
   onClick?: () => void;
   dataCategory?: string;
+  isSelected?: boolean;
 }
 
 const SingleCategory: React.FC<SingleCategoryProps> = ({
@@ -13,6 +14,7 @@ const SingleCategory: React.FC<SingleCategoryProps> = ({
   title,
   onClick,
   dataCategory,
+  isSelected,
 }) => {
   return (
     <div

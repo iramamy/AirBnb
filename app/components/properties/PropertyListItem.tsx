@@ -21,7 +21,6 @@ const PropertyListItem: React.FC<PropertyListItemProps> = ({
 }) => {
   const router = useRouter();
   const property_detail_url = `/properties/${property.id}`;
-  const edit_property_url = `/myproperty/${property.id}`;
 
   return (
     <div
@@ -51,7 +50,7 @@ const PropertyListItem: React.FC<PropertyListItemProps> = ({
           label="Edit property"
           onClick={(event: any) => {
             event.stopPropagation();
-            router.push(edit_property_url);
+            router.push(`/myproperty/${property.id}?id=${property.id}`);
           }}
         />
       ) : (

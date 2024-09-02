@@ -27,8 +27,6 @@ interface EditProfileFormProps {
 }
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
-  // console.log(userData);
-
   const [emailList, setEmailList] = useState<string[]>([]);
   const [nameList, setNameList] = useState<string[]>([]);
   const [avatarUrl, setAvatarUrl] = useState<string>(userData.avatar_url);
@@ -39,7 +37,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const url = "/api/auth/user_list";
+      const url = "/api/auth/user_list/";
       const response = await apiService.get(url);
       const emails = response.data.map((user: { email: string }) => user.email);
       const names = response.data.map((user: { name: string }) => user.name);
@@ -59,6 +57,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
     fetchUserData();
   }, []);
 
+  //   Set initial form initial values
   const initialValues = {
     email: userData.email,
     name: userData.name,
@@ -66,27 +65,20 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
   };
 
   const submitForm = async (values: EditProfileFormValues) => {
-    // console.log(values);
-
-    // formData.append("avatar_url", userImage);
     if (userImage && values.email && values.name) {
       const formData = new FormData();
       formData.append("user_id", userData.id);
       formData.append("email", values.email);
       formData.append("name", values.name);
       formData.append("avatar_url", userImage);
-      console.log("AVATAR URL", userImage);
-
-      console.log("AVATAR URL", formData);
 
       const response = await apiService.post(
         "/api/auth/editprofile/",
         formData
       );
 
-      if (response.access) {
-        router.push("/");
-        console.log("SUCCESSFULL");
+      if (response.success) {
+        router.push(`/landlord/${userData.id}`);
       } else if (response.non_field_errors) {
         setApiError(response.non_field_errors);
       }
@@ -108,7 +100,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
         validationSchema={EditProfileSchema(emailList, nameList)}
         onSubmit={submitForm}
       >
-        {({ errors, setFieldValue }) => (
+        {({ errors }) => (
           <Form>
             <div className="pt-3 pb-6 space-y-4">
               <div className="flex flex-col space-y-2 items-center">
@@ -135,7 +127,6 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
                             reader.onloadend = () => {
                               if (reader.result) {
                                 setAvatarUrl(reader.result as string);
-                                // setFieldValue("avatar_url", file.name);
                               }
                             };
                             reader.readAsDataURL(file);
