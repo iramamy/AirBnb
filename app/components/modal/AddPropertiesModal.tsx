@@ -39,8 +39,6 @@ const AddPropertiesModal = () => {
   };
 
   const submitForm = async () => {
-    console.log("Submit form");
-
     if (
       dataCategory &&
       dataTitle &&
@@ -69,8 +67,6 @@ const AddPropertiesModal = () => {
       );
 
       if (response.success) {
-        console.log("SUCCESS");
-
         router.push("/");
         addPropertyModal.close();
       } else {

@@ -6,12 +6,12 @@ const EditProfileSchema = (emailList: string[], nameList: string[]) => {
       .string()
       .required("Email is required")
       .email("Invalid email")
-      .notOneOf(emailList, "Email already in use"),
+      .notOneOf(emailList, "This email is already in use"),
     name: yup
       .string()
       .min(5)
       .required("Name is required")
-      .notOneOf(nameList, "Name already in use"),
+      .notOneOf(nameList, "This username is already in use"),
   });
 };
 

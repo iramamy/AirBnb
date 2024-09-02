@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
+import { useRouter } from "next/navigation";
 
 // Custom components
 import CustomButton from "./CustomButton";
@@ -13,10 +14,12 @@ import apiService from "@/app/services/apiService";
 type EditProfileFormValues = {
   email: string;
   name: string;
+  avatar_url: string;
 };
 
 interface EditProfileFormProps {
   userData: {
+    id: string;
     email: string;
     name: string;
     avatar_url: string;
@@ -26,11 +29,13 @@ interface EditProfileFormProps {
 const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
   // console.log(userData);
 
-  // const [dataValidator, setDataValidator] = useState<string[]>([]);
   const [emailList, setEmailList] = useState<string[]>([]);
   const [nameList, setNameList] = useState<string[]>([]);
   const [avatarUrl, setAvatarUrl] = useState<string>(userData.avatar_url);
-  const [avatarName, setAvatarName] = useState<string>("");
+  const [userImage, setUserImage] = useState<File | null>(null);
+  const [apiError, setApiError] = useState("");
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -47,7 +52,6 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
         (name: string) => name !== userData.name
       );
 
-      // setDataValidator({ emails, names });
       setEmailList(filteredEmails);
       setNameList(filteredNames);
     };
@@ -55,32 +59,38 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
     fetchUserData();
   }, []);
 
-  // Image upload
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        if (reader.result) {
-          setAvatarUrl(reader.result as string);
-          setAvatarName(file.name);
-        }
-      };
-
-      reader.readAsDataURL(file);
-    }
-    console.log(avatarName);
-  };
-
   const initialValues = {
     email: userData.email,
     name: userData.name,
     avatar_url: userData.avatar_url,
   };
 
-  const submitForm = (values: EditProfileFormValues) => {
-    console.log(values);
+  const submitForm = async (values: EditProfileFormValues) => {
+    // console.log(values);
+
+    // formData.append("avatar_url", userImage);
+    if (userImage && values.email && values.name) {
+      const formData = new FormData();
+      formData.append("user_id", userData.id);
+      formData.append("email", values.email);
+      formData.append("name", values.name);
+      formData.append("avatar_url", userImage);
+      console.log("AVATAR URL", userImage);
+
+      console.log("AVATAR URL", formData);
+
+      const response = await apiService.post(
+        "/api/auth/editprofile/",
+        formData
+      );
+
+      if (response.access) {
+        router.push("/");
+        console.log("SUCCESSFULL");
+      } else if (response.non_field_errors) {
+        setApiError(response.non_field_errors);
+      }
+    }
   };
 
   const errorClass = "border-red-500";
@@ -98,7 +108,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
         validationSchema={EditProfileSchema(emailList, nameList)}
         onSubmit={submitForm}
       >
-        {({ errors }) => (
+        {({ errors, setFieldValue }) => (
           <Form>
             <div className="pt-3 pb-6 space-y-4">
               <div className="flex flex-col space-y-2 items-center">
@@ -115,8 +125,22 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
                       Change Avatar
                       <input
                         type="file"
+                        name="avatar_url"
                         accept="image/*"
-                        onChange={handleImageUpload}
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            const file = e.target.files[0];
+                            setUserImage(file);
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              if (reader.result) {
+                                setAvatarUrl(reader.result as string);
+                                // setFieldValue("avatar_url", file.name);
+                              }
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
                         className="hidden"
                       />
                     </label>
