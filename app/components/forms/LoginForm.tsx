@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, ComponentPropsWithRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field } from "formik";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 
 // Custom components
 import LoginSchema from "./LoginValidation";
@@ -16,11 +17,13 @@ type LoginFormValues = {
 
 type LoginFormProps = {
   close: () => void;
+  props: ComponentPropsWithRef<"input">;
 };
 
-const LoginForm = ({ close }: LoginFormProps) => {
+const LoginForm = ({ close, props }: LoginFormProps) => {
   const router = useRouter();
   const [apiError, setApiError] = useState("");
+  const [shownPassword, setShownPassword] = useState(false);
 
   const signUpModal = useSignUpModal();
 
@@ -94,15 +97,30 @@ const LoginForm = ({ close }: LoginFormProps) => {
               >
                 Password
               </label>
-              <Field
-                type="password"
-                name="password"
-                id="password"
-                placeholder="••••••••"
-                className={`bg-gray-50 border ${
-                  errors.password || apiError ? errorClass : noErrorClass
-                } text-gray-900 rounded-lg block w-full p-2.5 focus:border-gray-900 focus:outline-none`}
-              ></Field>
+              <div
+                className={`border flex items-center in rounded-lg overflow-hidden focus-within:border-gray-900
+                 ${errors.password ? errorClass : noErrorClass}`}
+              >
+                <Field
+                  {...props}
+                  type={shownPassword ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  placeholder="••••••••"
+                  className="bg-gray-50 border text-gray-900 rounded-s-lg block w-full p-2.5 focus:outline-none"
+                ></Field>
+                <button
+                  onClick={() => setShownPassword(!shownPassword)}
+                  className="p-2"
+                  type="button"
+                >
+                  {shownPassword ? (
+                    <EyeIcon className="w-5 h-5 text-gray-500" />
+                  ) : (
+                    <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+                  )}
+                </button>
+              </div>
               {errors.password && (
                 <small className="italic text-red-500">{errors.password}</small>
               )}

@@ -2,7 +2,8 @@
 
 import { Formik, Field, Form } from "formik";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, ComponentPropsWithRef } from "react";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 
 // Custom components
 import CustomButton from "./CustomButton";
@@ -18,10 +19,17 @@ type ChangePasswordFormValues = {
   confirmPassword: string;
 };
 
-const ChangePasswordForm = () => {
+type ChangePasswordProps = {
+  props: ComponentPropsWithRef<"input">;
+};
+
+const ChangePasswordForm = ({ props }: ChangePasswordProps) => {
   const loginModal = useLoginModal();
   const router = useRouter();
   const [apiError, setApiError] = useState(false);
+  const [shownOldPassword, setShownOldPassword] = useState(false);
+  const [shownPassword, setShownPassword] = useState(false);
+  const [shownConfirmPassword, setShownConfirmPassword] = useState(false);
 
   const initialValues = {
     oldPassword: "",
@@ -77,18 +85,33 @@ const ChangePasswordForm = () => {
             <div className="pt-3 pb-6 space-y-4">
               <div className="flex flex-col space-y-2">
                 <label>Old password</label>
-                <Field
-                  type="password"
-                  name="oldPassword"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e);
-                    setApiError(false);
-                  }}
-                  className={`bg-gray-50 border ${
-                    errors.oldPassword || apiError ? errorClass : noErrorClass
-                  } text-gray-900 rounded-lg block w-full p-2.5 focus:border-gray-900 focus:outline-none`}
-                  placeholder="Old password here ..."
-                ></Field>
+                <div
+                  className={`border flex items-center in rounded-lg overflow-hidden focus-within:border-gray-900
+                 ${errors.oldPassword ? errorClass : noErrorClass}`}
+                >
+                  <Field
+                    {...props}
+                    type={shownOldPassword ? "text" : "password"}
+                    name="oldPassword"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      handleChange(e);
+                      setApiError(false);
+                    }}
+                    className="bg-gray-50 border text-gray-900 rounded-s-lg block w-full p-2.5 focus:outline-none"
+                    placeholder="Old password here ..."
+                  ></Field>
+                  <button
+                    onClick={() => setShownOldPassword(!shownOldPassword)}
+                    className="p-2 "
+                    type="button"
+                  >
+                    {shownOldPassword ? (
+                      <EyeIcon className="w-5 h-5 text-gray-500" />
+                    ) : (
+                      <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+                    )}
+                  </button>
+                </div>
                 {errors.oldPassword && (
                   <small className="italic text-red-500">
                     {errors.oldPassword}
@@ -98,14 +121,29 @@ const ChangePasswordForm = () => {
 
               <div className="flex flex-col space-y-2">
                 <label>New password</label>
-                <Field
-                  type="password"
-                  name="password"
-                  className={`bg-gray-50 border ${
-                    errors.password ? errorClass : noErrorClass
-                  } text-gray-900 rounded-lg block w-full p-2.5 focus:border-gray-900 focus:outline-none`}
-                  placeholder="New password here ..."
-                ></Field>
+                <div
+                  className={`border flex items-center in rounded-lg overflow-hidden focus-within:border-gray-900
+                 ${errors.password ? errorClass : noErrorClass}`}
+                >
+                  <Field
+                    {...props}
+                    type={shownPassword ? "text" : "password"}
+                    name="password"
+                    className="bg-gray-50 border text-gray-900 rounded-s-lg block w-full p-2.5 focus:outline-none"
+                    placeholder="New password here ..."
+                  ></Field>
+                  <button
+                    onClick={() => setShownPassword(!shownPassword)}
+                    className="p-2 "
+                    type="button"
+                  >
+                    {shownPassword ? (
+                      <EyeIcon className="w-5 h-5 text-gray-500" />
+                    ) : (
+                      <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+                    )}
+                  </button>
+                </div>
                 {errors.password && (
                   <small className="italic text-red-500">
                     {errors.password}
@@ -114,14 +152,30 @@ const ChangePasswordForm = () => {
               </div>
               <div className="flex flex-col space-y-2">
                 <label>Confirm password</label>
-                <Field
-                  type="password"
-                  name="confirmPassword"
-                  className={`bg-gray-50 border ${
-                    errors.confirmPassword ? errorClass : noErrorClass
-                  } text-gray-900 rounded-lg block w-full p-2.5 focus:border-gray-900 focus:outline-none`}
-                  placeholder="Confirm password here ..."
-                ></Field>
+                <div
+                  className={`border flex items-center in rounded-lg overflow-hidden focus-within:border-gray-900
+                 ${errors.confirmPassword ? errorClass : noErrorClass}`}
+                >
+                  <Field
+                    type="password"
+                    name="confirmPassword"
+                    className="bg-gray-50 border text-gray-900 rounded-s-lg block w-full p-2.5 focus:outline-none"
+                    placeholder="Confirm password here ..."
+                  ></Field>
+                  <button
+                    onClick={() =>
+                      setShownConfirmPassword(!shownConfirmPassword)
+                    }
+                    className="p-2"
+                    type="button"
+                  >
+                    {shownConfirmPassword ? (
+                      <EyeIcon className="w-5 h-5 text-gray-500" />
+                    ) : (
+                      <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+                    )}
+                  </button>
+                </div>
                 {errors.confirmPassword && (
                   <small className="italic text-red-500">
                     {errors.confirmPassword}

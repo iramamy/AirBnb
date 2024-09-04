@@ -1,6 +1,9 @@
+"use client";
+
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ComponentPropsWithRef } from "react";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 
 // Custom components
 import signUpSchema from "./SignUpValidation";
@@ -17,11 +20,14 @@ type SignUpFormValues = {
 
 type SignUpFormProps = {
   close: () => void;
+  props: ComponentPropsWithRef<"input">;
 };
 
-const SignUpFrom = ({ close }: SignUpFormProps) => {
+const SignUpFrom = ({ close, props }: SignUpFormProps) => {
   const router = useRouter();
   const [emailList, setEmailList] = useState<string[]>([]);
+  const [shownPassword, setShownPassword] = useState(false);
+  const [shownConfirmPassword, setShownConfirmPassword] = useState(false);
 
   const loginModal = useLoginModal();
 
@@ -93,7 +99,7 @@ const SignUpFrom = ({ close }: SignUpFormProps) => {
                 className={`bg-gray-50 border ${
                   errors.email ? errorClass : noErrorClass
                 } text-gray-900 rounded-lg block w-full p-2.5 focus:border-gray-900 focus:outline-none`}
-                placeholder="name@company.com"
+                placeholder="name@name.com"
               ></Field>
               {errors.email && (
                 <small className="italic text-red-500">{errors.email}</small>
@@ -106,15 +112,30 @@ const SignUpFrom = ({ close }: SignUpFormProps) => {
               >
                 Password
               </label>
-              <Field
-                type="password"
-                name="password"
-                id="password"
-                placeholder="••••••••"
-                className={`bg-gray-50 border ${
-                  errors.password ? errorClass : noErrorClass
-                } text-gray-900 rounded-lg block w-full p-2.5 focus:border-gray-900 focus:outline-none`}
-              ></Field>
+              <div
+                className={`border flex items-center in rounded-lg overflow-hidden focus-within:border-gray-900
+                 ${errors.password ? errorClass : noErrorClass}`}
+              >
+                <Field
+                  {...props}
+                  type={shownPassword ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  placeholder="••••••••"
+                  className="bg-gray-50 border text-gray-900 rounded-s-lg block w-full p-2.5 focus:outline-none"
+                ></Field>
+                <button
+                  onClick={() => setShownPassword(!shownPassword)}
+                  className="p-2 "
+                  type="button"
+                >
+                  {shownPassword ? (
+                    <EyeIcon className="w-5 h-5 text-gray-500" />
+                  ) : (
+                    <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+                  )}
+                </button>
+              </div>
               {errors.password && (
                 <small className="italic text-red-500">{errors.password}</small>
               )}
@@ -126,15 +147,31 @@ const SignUpFrom = ({ close }: SignUpFormProps) => {
               >
                 Confirm password
               </label>
-              <Field
-                type="password"
-                name="confirm_password"
-                id="confirm_password"
-                placeholder="••••••••"
-                className={`bg-gray-50 border ${
-                  errors.confirm_password ? errorClass : noErrorClass
-                } text-gray-900 rounded-lg block w-full p-2.5 focus:border-gray-900 focus:outline-none`}
-              ></Field>
+              <div
+                className={`border flex items-center in rounded-lg overflow-hidden focus-within:border-gray-900
+                 ${errors.confirm_password ? errorClass : noErrorClass}`}
+              >
+                <Field
+                  {...props}
+                  type={shownConfirmPassword ? "text" : "password"}
+                  name="confirm_password"
+                  id="confirm_password"
+                  placeholder="••••••••"
+                  className="bg-gray-50 border text-gray-900 rounded-s-lg block w-full p-2.5 focus:outline-none"
+                ></Field>
+                <button
+                  onClick={() => setShownConfirmPassword(!shownConfirmPassword)}
+                  className="p-2"
+                  type="button"
+                >
+                  {shownConfirmPassword ? (
+                    <EyeIcon className="w-5 h-5 text-gray-500" />
+                  ) : (
+                    <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+                  )}
+                </button>
+              </div>
+
               {errors.confirm_password && (
                 <small className="italic text-red-500">
                   {errors.confirm_password}
