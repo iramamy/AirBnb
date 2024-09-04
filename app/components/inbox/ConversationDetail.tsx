@@ -101,7 +101,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
     <>
       <div
         ref={messageDiv}
-        className="min-h-[435px] max-h-[435px] overflow-auto flex flex-col space-y-2 justify-between h-full"
+        className="min-h-[370px] max-h-[435px] overflow-auto flex flex-col space-y-2 justify-between h-full"
       >
         <div className="space-y-2">
           {[...messages, ...realTimeMessage].map((message, index) =>

@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 
 // Custom components
 import Modal from "./Modal";

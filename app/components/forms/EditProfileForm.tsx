@@ -65,12 +65,16 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
   };
 
   const submitForm = async (values: EditProfileFormValues) => {
-    if (userImage && values.email && values.name) {
+    if (values.email && values.name) {
       const formData = new FormData();
       formData.append("user_id", userData.id);
       formData.append("email", values.email);
       formData.append("name", values.name);
-      formData.append("avatar_url", userImage);
+      if (userImage) {
+        formData.append("avatar_url", userImage);
+      } else {
+        formData.append("avatar_url", avatarUrl);
+      }
 
       const response = await apiService.post(
         "/api/auth/editprofile/",

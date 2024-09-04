@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { resetAuthCookes } from "../lib/actions";
+import { resetAuthCookies } from "../lib/actions";
 
 // Custom components
 import MenuLink from "./navbar/MenuLink";
@@ -14,7 +14,7 @@ const LogOutButton: React.FC<LogOutButtonProps> = ({ onClick }) => {
   const router = useRouter();
   const submitLogout = async () => {
     onClick();
-    resetAuthCookes();
+    resetAuthCookies();
     router.push("/");
   };
   return <MenuLink label="Log Out" onClick={submitLogout} isLast={true} />;

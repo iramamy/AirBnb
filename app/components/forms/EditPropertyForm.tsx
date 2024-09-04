@@ -13,6 +13,7 @@ import CustomButton from "@/app/components/forms/CustomButton";
 import BackArrow from "@/app/components/BackArrow";
 import EditPropertySchema from "./EditPropertyValidation";
 import apiService from "@/app/services/apiService";
+import useDeleteModal from "@/app/hooks/useDeleteModal";
 
 type EditProfileFormValues = {
   id: string;
@@ -38,6 +39,7 @@ const EditPropertyForm: React.FC<EditProfileFormProps> = ({ property }) => {
     useState<SelectCountryValue | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [apiError, setApiError] = useState("");
+  const deleteModal = useDeleteModal();
 
   const router = useRouter();
 
@@ -61,7 +63,6 @@ const EditPropertyForm: React.FC<EditProfileFormProps> = ({ property }) => {
   //   Set formik on submit function
   const submitForm = async (values: EditProfileFormValues) => {
     if (
-      propertyImage &&
       values.country &&
       values.category &&
       values.title &&
@@ -79,9 +80,11 @@ const EditPropertyForm: React.FC<EditProfileFormProps> = ({ property }) => {
       formData.append("price_per_night", values.price_per_night);
       formData.append("bedrooms", values.bedrooms);
       formData.append("guests", values.guests);
-      formData.append("image_url", propertyImage);
-
-      console.log("Form data", formData);
+      if (propertyImage) {
+        formData.append("image_url", propertyImage);
+      } else {
+        formData.append("image_url", imageUrl);
+      }
 
       const response = await apiService.post(
         "/api/properties/editproperty/",
@@ -105,6 +108,11 @@ const EditPropertyForm: React.FC<EditProfileFormProps> = ({ property }) => {
         <BackArrow />
       </div>
       <h2 className="mb-6 text-3xl text-center text-airbnb">Edit property</h2>
+      {apiError && (
+        <div className="text-red-500 text-center mt-0">
+          Something went wrong, please try agin later.
+        </div>
+      )}
       <Formik
         initialValues={initialValues}
         validationSchema={EditPropertySchema}
@@ -124,10 +132,10 @@ const EditPropertyForm: React.FC<EditProfileFormProps> = ({ property }) => {
 
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-60 text-white text-sm font-semibold opacity-0 hover:opacity-40 transition-opacity duration-300 cursor-pointer ">
                   <label className="cursor-pointer">
-                    Change image{" "}
+                    Change image
                     <input
                       type="file"
-                      name="avatar_url"
+                      name="image_url"
                       accept="image/*"
                       onChange={(e) => {
                         if (e.target.files && e.target.files[0]) {
@@ -261,11 +269,14 @@ const EditPropertyForm: React.FC<EditProfileFormProps> = ({ property }) => {
             </div>
             <div className="space-y-2">
               <CustomButton label="Save change" isEdit={true} />
-              <CustomButton
-                label="Delete property"
-                isEdit={true}
-                isPrev={true}
-              />
+              <button
+                onClick={() => deleteModal.open()}
+                type="button"
+                className="text-white end-2.5 bottom-2.5
+                    bg-black hover:bg-gray-800 font-medium rounded-lg text-sm px-4 py-2 w-[100%]"
+              >
+                Delete property
+              </button>
             </div>
           </Form>
         )}

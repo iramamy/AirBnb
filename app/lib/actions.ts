@@ -28,15 +28,11 @@ export async function handleLogin(
     path: '/',
     sameSite: 'lax'
   });
-  // Log the cookies being set in handleLogin
-  console.log('Setting session_userid:', userId);
-  console.log('Setting session_access_token:', accessToken);
-  console.log('Setting session_refresh_token:', refreshToken);
 
 };
 
 // Clear session for log out
-export async function resetAuthCookes() {
+export async function resetAuthCookies() {
 
   cookies().set("session_userid", '');
   cookies().set("session_access_token", '');

@@ -33,9 +33,7 @@ const Modal: React.FC<ModalProps> = ({ title, content, isOpen, close }) => {
       <div className="relative w-[90%] md:w-[55%] lg:w-[500px] my-6 mx-auto h-auto">
         <div
           className={`translate duration-600 h-full ${
-            showModal
-              ? "translate-y-0 opacity-100"
-              : "translate-y-full opacity-10"
+            showModal ? "translate-y-0 opacity-100" : ""
           }`}
         >
           <div className="w-full h-auto rounded-xl relative flex flex-col bg-white shadow-md">
