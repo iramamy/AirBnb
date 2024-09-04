@@ -157,7 +157,8 @@ const ChangePasswordForm = ({ props }: ChangePasswordProps) => {
                  ${errors.confirmPassword ? errorClass : noErrorClass}`}
                 >
                   <Field
-                    type="password"
+                    {...props}
+                    type={shownConfirmPassword ? "text" : "password"}
                     name="confirmPassword"
                     className="bg-gray-50 border text-gray-900 rounded-s-lg block w-full p-2.5 focus:outline-none"
                     placeholder="Confirm password here ..."
