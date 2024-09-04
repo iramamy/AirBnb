@@ -11,7 +11,6 @@ import apiService from "@/app/services/apiService";
 const DeleteContent = () => {
   const deleteModal = useDeleteModal();
   const router = useRouter();
-  const [apiError, setApiError] = useState(false);
 
   const searchParams = useSearchParams();
   const propertyId = searchParams.get("id") || "";
@@ -26,7 +25,6 @@ const DeleteContent = () => {
       router.push("/myproperty/");
       deleteModal.close();
     } else {
-      setApiError(true);
       deleteModal.close();
     }
   };

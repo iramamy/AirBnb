@@ -20,7 +20,7 @@ type SignUpFormValues = {
 
 type SignUpFormProps = {
   close: () => void;
-  props: ComponentPropsWithRef<"input">;
+  props?: ComponentPropsWithRef<"input">;
 };
 
 const SignUpFrom = ({ close, props }: SignUpFormProps) => {

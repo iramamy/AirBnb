@@ -10,6 +10,7 @@ import LoginSchema from "./LoginValidation";
 import apiService from "@/app/services/apiService";
 import useSignUpModal from "@/app/hooks/useSignUpModal";
 import { handleLogin } from "@/app/lib/actions";
+import useForgotPasswordModal from "@/app/hooks/useForgotPasswordModal";
 
 type LoginFormValues = {
   email: string;
@@ -18,7 +19,7 @@ type LoginFormValues = {
 
 type LoginFormProps = {
   close: () => void;
-  props: ComponentPropsWithRef<"input">;
+  props?: ComponentPropsWithRef<"input">;
 };
 
 const LoginForm = ({ close, props }: LoginFormProps) => {
@@ -27,6 +28,7 @@ const LoginForm = ({ close, props }: LoginFormProps) => {
   const [shownPassword, setShownPassword] = useState(false);
 
   const signUpModal = useSignUpModal();
+  const forgotPasswordModal = useForgotPasswordModal();
 
   const initial_values = {
     email: "",
@@ -147,12 +149,15 @@ const LoginForm = ({ close, props }: LoginFormProps) => {
                   </label>
                 </div>
               </div>
-              <Link
-                href="/"
-                className="text-sm font-medium text-primary-600 hover:underline"
+              <span
+                onClick={() => {
+                  forgotPasswordModal.open();
+                  close();
+                }}
+                className="text-sm font-medium text-primary-600 hover:underline cursor-pointer"
               >
                 Forgot password?
-              </Link>
+              </span>
             </div>
             <button
               type="submit"

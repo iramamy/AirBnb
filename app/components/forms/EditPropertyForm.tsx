@@ -33,6 +33,7 @@ interface EditProfileFormProps {
 }
 
 const EditPropertyForm: React.FC<EditProfileFormProps> = ({ property }) => {
+  const [loading, setLoading] = useState(true);
   const [imageUrl, setImageUrl] = useState<string>(property.image_url);
   const [propertyImage, setPropertyImage] = useState<File | null>(null);
 

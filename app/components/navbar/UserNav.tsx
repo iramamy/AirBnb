@@ -84,7 +84,26 @@ const UserNav: React.FC<userNavProps> = ({ userId }) => {
           ref={dropDownRef}
           className="absolute w-[220px] top-[50px] right-0 bg-white shadow-md border border-gray-100 rounded-xl cursor-pointer flex flex-col"
         >
-          {userId ? (
+          {!userId ? (
+            <>
+              <MenuLink
+                label="Log In"
+                isFirst={true}
+                onClick={() => {
+                  loginModal.open();
+                  setIsOpen(false);
+                }}
+              />
+
+              <MenuLink
+                label="Sign Up"
+                onClick={() => {
+                  signUpModal.open();
+                  setIsOpen(false);
+                }}
+              />
+            </>
+          ) : (
             <>
               <MenuLink
                 label="Profile"
@@ -124,25 +143,6 @@ const UserNav: React.FC<userNavProps> = ({ userId }) => {
               />
               <LogOutButton
                 onClick={() => {
-                  setIsOpen(false);
-                }}
-              />
-            </>
-          ) : (
-            <>
-              <MenuLink
-                label="Log In"
-                isFirst={true}
-                onClick={() => {
-                  loginModal.open();
-                  setIsOpen(false);
-                }}
-              />
-
-              <MenuLink
-                label="Sign Up"
-                onClick={() => {
-                  signUpModal.open();
                   setIsOpen(false);
                 }}
               />

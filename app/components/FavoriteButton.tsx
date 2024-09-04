@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
+import { toast } from "react-toastify";
 
 // Custom components
 import apiService from "../services/apiService";
@@ -22,7 +23,6 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   const loginModal = useLoginModal();
 
   // Get user id from server
-
   useEffect(() => {
     const fetchUserId = async () => {
       const id = await getUserId();
@@ -48,6 +48,12 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
         `/api/properties/${id}/toggle_favorite/`,
         {}
       );
+
+      if (response.is_favorite) {
+        toast.success("Added to favorite.");
+      } else {
+        toast.success("Removed from favorite.");
+      }
 
       markFavorite(response.is_favorite);
     },

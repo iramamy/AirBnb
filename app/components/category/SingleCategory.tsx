@@ -6,7 +6,6 @@ interface SingleCategoryProps {
   title: string;
   onClick?: () => void;
   dataCategory?: string;
-  isSelected?: boolean;
 }
 
 const SingleCategory: React.FC<SingleCategoryProps> = ({
@@ -14,13 +13,12 @@ const SingleCategory: React.FC<SingleCategoryProps> = ({
   title,
   onClick,
   dataCategory,
-  isSelected,
 }) => {
   return (
     <div
       onClick={onClick}
       className={`pb-4 flex flex-col items-center space-y-2 border-b-2 ${
-        dataCategory == title
+        dataCategory === title
           ? "border-gray-900 opacity-100 hover:border-gray-800"
           : "border-white opacity-60 hover:border-gray-400"
       } hover:opacity-95 cursor-pointer`}
