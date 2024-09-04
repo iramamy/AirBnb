@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 
 // Custom components
@@ -32,6 +34,7 @@ export default function RootLayout({
         <SignUpModal />
         <DeleteModal />
         <AddPropertiesModal />
+        <ToastContainer />
       </body>
     </html>
   );

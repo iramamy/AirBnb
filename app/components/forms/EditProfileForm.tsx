@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 // Custom components
 import CustomButton from "./CustomButton";
@@ -82,6 +83,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userData }) => {
       );
 
       if (response.success) {
+        toast.success("Profile updated successfully!");
         router.push(`/landlord/${userData.id}`);
       } else if (response.non_field_errors) {
         setApiError(response.non_field_errors);

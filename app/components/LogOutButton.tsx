@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { resetAuthCookies } from "../lib/actions";
+import { toast } from "react-toastify";
 
 // Custom components
 import MenuLink from "./navbar/MenuLink";
@@ -15,6 +16,7 @@ const LogOutButton: React.FC<LogOutButtonProps> = ({ onClick }) => {
   const submitLogout = async () => {
     onClick();
     resetAuthCookies();
+    toast.success("You are now logged out!");
     router.push("/");
   };
   return <MenuLink label="Log Out" onClick={submitLogout} isLast={true} />;

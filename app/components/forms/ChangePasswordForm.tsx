@@ -4,6 +4,7 @@ import { Formik, Field, Form } from "formik";
 import { useRouter } from "next/navigation";
 import { useState, ComponentPropsWithRef } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
+import { toast } from "react-toastify";
 
 // Custom components
 import CustomButton from "./CustomButton";
@@ -51,6 +52,8 @@ const ChangePasswordForm = ({ props }: ChangePasswordProps) => {
 
       if (response.success) {
         resetAuthCookies();
+        toast.success("Password changed successfully!");
+
         router.push("/");
         loginModal.open();
       } else {

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 // Custom components
 
@@ -92,6 +93,7 @@ const EditPropertyForm: React.FC<EditProfileFormProps> = ({ property }) => {
       );
 
       if (response.success) {
+        toast.success("Property updated successfully!");
         router.push("/");
       } else if (response.non_field_errors) {
         setApiError(response.non_field_errors);

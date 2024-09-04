@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 // Custom components
 import Modal from "./Modal";
@@ -67,6 +68,7 @@ const AddPropertiesModal = () => {
       );
 
       if (response.success) {
+        toast.success("Property added successfully!");
         router.push("/");
         addPropertyModal.close();
       } else {

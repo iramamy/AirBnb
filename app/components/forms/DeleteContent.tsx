@@ -1,6 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 // Custom components
 import CustomButton from "./CustomButton";
@@ -21,6 +22,7 @@ const DeleteContent = () => {
     );
 
     if (response.success) {
+      toast.success("Property deleted successfully!");
       router.push("/myproperty/");
       deleteModal.close();
     } else {

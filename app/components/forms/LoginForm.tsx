@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field } from "formik";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
+import { toast } from "react-toastify";
 
 // Custom components
 import LoginSchema from "./LoginValidation";
@@ -46,6 +47,8 @@ const LoginForm = ({ close, props }: LoginFormProps) => {
 
     if (response.access) {
       handleLogin(response.user.pk, response.access, response.refresh);
+      toast.success("You are now logged in!");
+
       router.push("/");
       close(); // Close the modal
     } else if (response.non_field_errors) {
