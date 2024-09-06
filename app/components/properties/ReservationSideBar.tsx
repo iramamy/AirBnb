@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { Range } from "react-date-range";
 import { differenceInDays, eachDayOfInterval, format } from "date-fns";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 // Custom components
 import DatePicker from "../forms/Calendar";
@@ -42,6 +44,8 @@ const ReservationSideBar: React.FC<ReservationSideBarProps> = ({
     (_, index) => index + 1
   );
 
+  const router = useRouter();
+
   // Booking data
   const performBooking = async () => {
     if (userId) {
@@ -62,9 +66,10 @@ const ReservationSideBar: React.FC<ReservationSideBarProps> = ({
         );
 
         if (response.success) {
-          console.log("FOrm submitted successfully");
+          await getReservation();
+          toast.success("Property booked successfully");
         } else {
-          console.log("something went wrong...");
+          toast.error("Something went wrong, please try again later");
         }
       }
     } else {
@@ -126,7 +131,7 @@ const ReservationSideBar: React.FC<ReservationSideBarProps> = ({
         setNights(1);
       }
     }
-  }, [dateRange]);
+  }, [dateRange, property.id]);
 
   return (
     <aside className="mt-6 p-6 col-span-2 rounded-xl border border-gray-300 shadow-xl">

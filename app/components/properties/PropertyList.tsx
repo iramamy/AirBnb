@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 // Custom components
 import PropertyListItem from "./PropertyListItem";
 import apiService from "@/app/services/apiService";
 import useSearchModal from "@/app/hooks/useSearchModal";
 import Spinner from "../Spinner";
+import { getUserId } from "@/app/lib/actions";
 
 export type PropertyType = {
   property: any;
@@ -41,17 +43,14 @@ const PropertyList: React.FC<PropertyListProps> = ({
 
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  const router = useRouter();
 
   const markFavorite = (id: string, is_favorite: boolean) => {
     const tmpProperties = properties.map((property: PropertyType) => {
       if (property.id == id) {
         property.is_favorite = is_favorite;
-
-        if (is_favorite) {
-          console.log("Added to favorite property");
-        } else {
-          console.log("Removed to favorite property");
-        }
       }
       return property;
     });
@@ -60,6 +59,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
   };
 
   const getProperties = async () => {
+    setLoading(true);
     let url = "/api/properties/";
 
     if (landlord_id) {
@@ -120,9 +120,24 @@ const PropertyList: React.FC<PropertyListProps> = ({
       setLoading(false);
     }
   };
+
   useEffect(() => {
     getProperties();
   }, [category, searchModal.query, params]);
+
+  // Get user id from server
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const id = await getUserId();
+      setUserId(id);
+      if (userId) {
+        getProperties();
+        router.refresh();
+      }
+    };
+
+    fetchUserId();
+  }, [params]);
 
   return (
     <>
@@ -143,6 +158,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
                 markFavorite(property.id, is_favorite)
               }
               is_details={is_details}
+              userId={userId}
             />
           ))}
         </div>

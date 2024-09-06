@@ -1,15 +1,19 @@
+"use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 // Custom components
 import FavoriteButton from "../FavoriteButton";
 import CustomButton from "../forms/CustomButton";
+import apiService from "@/app/services/apiService";
 
 interface PropertyListItemProps {
   property: any;
   markFavorite?: (is_favorite: boolean) => void;
   is_favorite: boolean;
   is_details?: boolean;
+  userId?: string | null;
 }
 
 const PropertyListItem: React.FC<PropertyListItemProps> = ({
@@ -17,9 +21,12 @@ const PropertyListItem: React.FC<PropertyListItemProps> = ({
   markFavorite,
   is_favorite,
   is_details,
+  userId,
 }) => {
   const router = useRouter();
   const property_detail_url = `/properties/${property.id}`;
+
+  console.log(userId);
 
   return (
     <div

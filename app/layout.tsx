@@ -12,6 +12,7 @@ import AddPropertiesModal from "./components/modal/AddPropertiesModal";
 import DeleteModal from "./components/modal/DeleteModal";
 import ForgotPasswordModal from "./components/modal/ForgotPasswordModal";
 import SearchModal from "./components/modal/SearchModal";
+import DeleteReservationModal from "./components/modal/DeleteReservationModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,7 @@ export default function RootLayout({
         <AddPropertiesModal />
         <ForgotPasswordModal />
         <SearchModal />
+        <DeleteReservationModal />
         <ToastContainer />
       </body>
     </html>

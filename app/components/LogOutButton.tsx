@@ -17,7 +17,9 @@ const LogOutButton: React.FC<LogOutButtonProps> = ({ onClick }) => {
     onClick();
     resetAuthCookies();
     toast.success("You are now logged out!");
+
     router.push("/");
+    router.refresh();
   };
   return <MenuLink label="Log Out" onClick={submitLogout} isLast={true} />;
 };

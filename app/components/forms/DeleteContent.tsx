@@ -1,6 +1,5 @@
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { toast } from "react-toastify";
 
 // Custom components

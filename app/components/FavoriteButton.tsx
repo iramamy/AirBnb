@@ -42,20 +42,20 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
 
       if (!userId) {
         loginModal.open();
-      }
-
-      const response = await apiService.post(
-        `/api/properties/${id}/toggle_favorite/`,
-        {}
-      );
-
-      if (response.is_favorite) {
-        toast.success("Added to favorite.");
       } else {
-        toast.success("Removed from favorite.");
-      }
+        const response = await apiService.post(
+          `/api/properties/${id}/toggle_favorite/`,
+          {}
+        );
 
-      markFavorite(response.is_favorite);
+        if (response.is_favorite) {
+          toast.success("Added to favorite.");
+        } else {
+          toast.success("Removed from favorite.");
+        }
+
+        markFavorite(response.is_favorite);
+      }
     },
     [userId, id, markFavorite]
   );

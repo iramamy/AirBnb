@@ -1,5 +1,4 @@
 import { useState, ComponentPropsWithRef } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field } from "formik";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
@@ -52,6 +51,7 @@ const LoginForm = ({ close, props }: LoginFormProps) => {
       toast.success("You are now logged in!");
 
       router.push("/");
+      router.refresh();
       close(); // Close the modal
     } else if (response.non_field_errors) {
       setApiError(response.non_field_errors);
